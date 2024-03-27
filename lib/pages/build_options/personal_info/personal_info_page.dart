@@ -8,6 +8,34 @@ class PersonalInfo extends StatefulWidget {
 }
 
 class _PersonalInfoState extends State<PersonalInfo> {
+  bool _Profile = true;
+
+  Future<void> pickImageWithCamera() async {
+    ImagePicker picker = ImagePicker();
+
+    XFile? file = await picker.pickImage(
+      source: ImageSource.camera,
+    );
+
+    if (file != null) {
+      Globals.globals.image = File(file.path);
+      setState(() {});
+    }
+  }
+
+  Future<void> pickImageWithGallery() async {
+    ImagePicker picker = ImagePicker();
+
+    XFile? file = await picker.pickImage(
+      source: ImageSource.gallery,
+    );
+
+    if (file != null) {
+      Globals.globals.image = File(file.path);
+      setState(() {});
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
@@ -22,7 +50,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
         ),
       ],
     );
-    bool _Profile = true;
+
     return Scaffold(
       // -----------
       appBar: appBar(
@@ -112,11 +140,11 @@ class _PersonalInfoState extends State<PersonalInfo> {
             Stack(
               children: [
                 ////0
-                // Visibility(
-                // visible: _Profile, child: formWidget(context: context)),
+                Visibility(
+                    visible: _Profile, child: formWidget(context: context)),
                 ////1
                 Visibility(
-                  // visible: _Profile != true,
+                  visible: !_Profile,
                   child: Container(
                     height: size.height * 0.28,
                     width: size.width,
@@ -132,21 +160,6 @@ class _PersonalInfoState extends State<PersonalInfo> {
                         ),
                       ],
                     ),
-                    // child: Stack(
-                    //   alignment: Alignment.bottomRight,
-                    //   children: [
-                    //     Container(
-                    //       height: size.height * 0.22,
-                    //       width: size.width * 0.44,
-                    //       decoration: BoxDecoration(
-                    //         color: Colors.blue,
-                    //         shape: BoxShape.circle,
-                    //       ),
-                    //
-                    //     ),
-                    //     FloatingActionButton(onPressed: () {}),
-                    //   ],
-                    // ),
                     child: Stack(
                       alignment: Alignment.bottomRight,
                       children: [
@@ -164,32 +177,31 @@ class _PersonalInfoState extends State<PersonalInfo> {
                             showDialog(
                               context: context,
                               builder: (context) {
-                                return SimpleDialog(
-                                  title: Row(
+                                return AlertDialog(
+                                  title: const Row(
                                     children: [
-                                      const Text("Select optioon"),
-                                      const Spacer(),
-                                      IconButton(
-                                          onPressed: () {
-                                            if (Globals.globals.image != null) {
-                                              setState(() {});
-                                              Navigator.of(context).pop();
-                                            }
-                                          },
-                                          icon:
-                                              const Icon(Icons.cancel_outlined))
+                                      Text("Select optioon"),
+                                      Spacer(),
                                     ],
                                   ),
-                                  children: [
-                                    imageOption(
-                                        icon: Icon(Icons.camera),
-                                        text: Text("Camera"),
-                                        source: ImageSource.camera),
-                                    imageOption(
-                                        icon: Icon(Icons.image),
-                                        text: Text("Galary"),
-                                        source: ImageSource.gallery),
-                                  ],
+                                  content: Row(
+                                    children: [
+                                      TextButton(
+                                        onPressed: () {
+                                          pickImageWithCamera();
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text("Camera"),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          pickImageWithGallery();
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text("Gallery"),
+                                      ),
+                                    ],
+                                  ),
                                 );
                               },
                             );

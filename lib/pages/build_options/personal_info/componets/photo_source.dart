@@ -1,7 +1,10 @@
 import 'package:resume_builder_app/pages/utills/heders_utills.dart';
 
 Widget imageOption(
-    {required Icon icon, required Text text, required ImageSource source}) {
+    {required Icon icon,
+    required Text text,
+    required ImageSource source,
+    required BuildContext context}) {
   return Row(
     children: [
       TextButton.icon(
@@ -14,8 +17,8 @@ Widget imageOption(
 
           if (file != null) {
             Globals.globals.image = File(file.path);
-            // setState(() {});
           }
+          Navigator.pop(context);
         },
         icon: icon,
         label: text,

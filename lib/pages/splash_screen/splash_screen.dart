@@ -10,9 +10,12 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    Future.delayed(const Duration(seconds: 3), () {
-      Navigator.pushReplacementNamed(context, MyRoutes.homePage);
-    });
+    Future.delayed(
+      const Duration(seconds: 3),
+      () {
+        Navigator.pushReplacementNamed(context, MyRoutes.homePage);
+      },
+    );
     super.initState();
   }
 
@@ -21,15 +24,20 @@ class _SplashScreenState extends State<SplashScreen> {
     return const Scaffold(
       body: Center(
         child: Column(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image(
-              image: AssetImage("lib/assets/gif/splash_screen.gif"),
+            Spacer(),
+            Center(
+              child: Image(
+                image: AssetImage("lib/assets/gif/splash_screen.gif"),
+              ),
             ),
-            CircularProgressIndicator(),
+            Spacer(),
+            LinearProgressIndicator(),
           ],
         ),
       ),
+      backgroundColor: Color(0xff526D82),
     );
   }
 }
